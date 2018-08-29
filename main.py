@@ -6,7 +6,6 @@ chain3 = 'LCBJOJGIEKBO'
 chain4 = 'KAINLHLOLBEJ'
 
 def delete_zeros(lst):
-    'is this working'
     for index, tuple in enumerate(lst):
         if 0 in tuple:
             del lst[index]
@@ -14,7 +13,6 @@ def delete_zeros(lst):
             
             
 def delete_elevens(lst):
-    print 'is this function even working'
     for index, tuple in enumerate(lst):
         if 11 in tuple:
             del lst[index]
@@ -46,74 +44,65 @@ def rectangles():
     lst = [(i, y) for i in range(1, 9) for y in range(i, 9)]  
     return sorted(lst, key=lambda(x,y): x*y, reverse=True)
     
+    
+    
+    
+    
+    
+    
 def possible_molecules(first_vertical, first_horizontal, second_vertical, second_horizontal, poss_area):
-  
+    
+    areas = []
     one_two = compare_chains(first_vertical, first_horizontal)
     two_three = compare_chains(first_horizontal, second_vertical)
     one_four = compare_chains(first_vertical, second_horizontal)
     three_four = compare_chains(second_vertical, second_horizontal)
+    # match = False
     
-    print lowest_index(one_two)
-    print highest_index(two_three)
-    print 'one_two', one_two
-    print 'two_three', two_three
-    print 'one_four', one_four
-    print 'three_four', three_four
-    print 'poss_area', poss_area
+  
+    delete_elevens(one_two)
+    delete_zeros(one_two)
+    delete_elevens(two_three)
+    delete_zeros(two_three)
+    delete_elevens(one_four)
+    delete_zeros(one_four)
+    delete_elevens(three_four)
+    delete_zeros(three_four)
+    
+    for tuple in two_three:
+        if tuple[1] == poss_area[0] + lowest_index(one_two)[1] + 1:
+            for tuple2 in three_four:
+                if tuple2[1] == poss_area[1] + tuple[2] + 1:
+                      for tuple3 in one_four:
+                            if tuple3[2] == lowest_index(one_two)[2] + poss_area[1] + 1:
+                                print 'these are the possible areas'
+                                return poss_area[0]*poss_area[1]
+                                
+                                
+    # if match:
+    #     areas.append(poss_area[0]*poss_area[1])
+    
+    # if len(areas) > 0:
+    #     return areas[0]
+    # else:
+    #     pass
+                
     
     
+    # print 'one_two', one_two
+    # print 'two_three', two_three
+    # print '-----------'
+    # print 'one_four', one_four
+    # print 'three_four', three_four
+    # print 'poss_area', poss_area
     
     
 
-possible_molecules('OIMDIHEIAFNL', 'CHJDBJMHPJKD', 'LCBJOJGIEKBO', 'KAINLHLOLBEJ', (6, 5))   
-# for tuple in rectangles():
-#     i = itertools.permutations([chain1, chain2, chain3, chain4])
-#     for each in i:
-#         possible_molecules(each[0], each[1], each[2], each[3], tuple)
+# print possible_molecules('OIMDIHEIAFNL', 'CHJDBJMHPJKD', 'LCBJOJGIEKBO', 'KAINLHLOLBEJ', (5, 6))
 
 
 
-
-# chain1_chain2 = compare_chains(chain1, chain2)
-# chain1_chain3 = compare_chains(chain1, chain3)
-# chain1_chain4 = compare_chains(chain1, chain4)
-# chain2_chain3 = compare_chains(chain2, chain3)
-# chain2_chain4 = compare_chains(chain2, chain4)
-# chain3_chain4 = compare_chains(chain3, chain4)
-        
-# delete_zeros(chain1_chain2)
-# delete_zeros(chain1_chain3)
-# delete_zeros(chain1_chain4)
-# delete_zeros(chain2_chain3)
-# delete_zeros(chain2_chain4)
-# delete_zeros(chain3_chain4)
-
-# delete_elevens(chain1_chain2)
-# delete_elevens(chain1_chain3)
-# delete_elevens(chain1_chain4)
-# delete_elevens(chain2_chain3)
-# delete_elevens(chain2_chain4)
-# delete_elevens(chain3_chain4)
-
-# print 'chain1_chain2', chain1_chain2
-# print 'chain1_chain3', chain1_chain3
-# print 'chain1_chain4', chain1_chain4
-# print 'chain2_chain3', chain2_chain3
-# print 'chain2_chain4', chain2_chain4
-# print 'chain3_chain4', chain3_chain4
-
-# print '-----------'
-
-# srt1_2 = sorted(chain1_chain2, key=lambda(x,y,z):abs(y-z))
-# srt1_3 = sorted(chain1_chain3, key=lambda(x,y,z):abs(y-z))
-# srt1_4 = sorted(chain1_chain4, key=lambda(x,y,z):abs(y-z))
-# srt2_3 = sorted(chain2_chain3, key=lambda(x,y,z):abs(y-z))
-# srt2_4 = sorted(chain2_chain4, key=lambda(x,y,z):abs(y-z))
-# srt3_4 = sorted(chain3_chain4, key=lambda(x,y,z):abs(y-z))
-        
-# print 'srt1_2', srt1_2
-# print 'srt1_3', srt1_3
-# print 'srt1_4', srt1_4
-# print 'srt2_3', srt2_3
-# print 'srt2_4', srt2_4
-# print 'srt3_4', srt3_4
+for tuple in rectangles():
+    i = itertools.permutations([chain1, chain2, chain3, chain4])
+    for each in i:
+        print possible_molecules(each[0], each[1], each[2], each[3], tuple)
