@@ -1,5 +1,5 @@
 import itertools
-import math
+
 
 chain1 = 'OIMDIHEIAFNL'
 chain2 = 'CHJDBJMHPJKD'
@@ -62,18 +62,10 @@ def possible_molecules(first_vertical, first_horizontal, second_vertical, second
             horizontal = crossing[1]
             vertical = crossing[2]
             second_horiz_crossing = first_horizontal[horizontal + area_width + 1]
-            second_vert_crossing = second_vertical[vertical]
-            if first_horizontal[horizontal + area_width + 1] == second_vertical[vertical]:
-                bottom_vert_crossing = second_vertical[vertical + area_height + 1]
-                bottom_second_horiz = second_horizontal[horizontal + area_width + 1]
-                # if second_vertical[vertical + area_height + 1] == second_horizontal[horizontal + area_width + 1]:
-                if second_vertical[vertical + area_height + 1] in second_horizontal and first_vertical[vertical + area_height + 1] in second_horizontal:
-                    # x = second_horizontal[index + area_width + 1]
-                    # y = second_vertical[vertical + area_height + 1]
-                    final_vert_crossing = first_vertical[vertical + area_height + 1]
+            if first_horizontal[horizontal + area_width + 1] in second_vertical:
+                 if second_vertical[second_vertical.index(second_horiz_crossing) + area_height + 1] in second_horizontal and first_vertical[vertical + area_height + 1] in second_horizontal:
                     for index, char in enumerate(second_horizontal):
-                        if char == first_vertical[vertical + area_height + 1] and second_horizontal[index + area_width + 1] == second_vertical[vertical + area_height + 1]:
-                    # if second_horizontal[horizontal] == first_vertical[vertical + area_height + 1]:
+                        if char == first_vertical[vertical + area_height + 1] and second_horizontal[index + area_width + 1] == second_vertical[second_vertical.index(second_horiz_crossing) + area_height + 1]:
                             match = True
                             break
     except:
@@ -86,13 +78,9 @@ def possible_molecules(first_vertical, first_horizontal, second_vertical, second
         
     
     if areas:
-        # print areas
         return areas
     else:
         return 0
-
-
-# print possible_molecules('ABAAAAAAAABA', 'CBCCCCCCCCBC', 'DBDDDDDDDDBD', 'EBEEEEEEEEBE', (8, 8))                
 
 area_lst = []
 
@@ -106,7 +94,6 @@ for tup in rectangles():
     # i = itertools.permutations([chain1, chain2, chain3, chain4])
     for a,b,c,d in i:
         x = possible_molecules(a, b, c, d, tup)
-        # print x
         if x:
             area_lst.append(x)
             break
