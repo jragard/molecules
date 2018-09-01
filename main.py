@@ -3,12 +3,6 @@ import argparse
 import sys
 
 
-chain1 = 'OIMDIHEIAFNL'
-chain2 = 'CHJDBJMHPJKD'
-chain3 = 'LCBJOJGIEKBO'
-chain4 = 'KAINLHLOLBEJ'
-
-
 def crossings(horizontal, vertical, (width, height)):
 
     horizontal_lst = []
