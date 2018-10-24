@@ -12,6 +12,8 @@ def crossings(horizontal, vertical, (width, height)):
     max_horizontal_index = (len(horizontal) - 3) - width
     max_vertical_index = (len(vertical) - 3) - height
 
+    
+
     for index, char in enumerate(horizontal):
         if index > max_horizontal_index:
             break
@@ -44,7 +46,7 @@ def rectangles():
 
 
 def possible_molecules(first_vertical, first_horizontal, second_vertical, second_horizontal, poss_area):
-
+    
     area_width = poss_area[0]
     area_height = poss_area[1]
 
@@ -61,16 +63,19 @@ def possible_molecules(first_vertical, first_horizontal, second_vertical, second
             vertical = crossing[2]
             second_horiz_crossing = first_horizontal[horizontal + area_width + 1]
 
-            if first_horizontal[horizontal + area_width + 1] in second_vertical:
+            if second_horiz_crossing in second_vertical:
+                if second_vertical.index(second_horiz_crossing) != 0 and second_vertical.index(second_horiz_crossing) + area_height + 1 != 11:
+                    index_of_possible_bottom_crossing = second_vertical.index(second_horiz_crossing) + area_height + 1
+                    index_of_possible_top_crossing = second_vertical.index(second_horiz_crossing)
+                    if second_vertical[index_of_possible_top_crossing] == second_horiz_crossing:
+                        if second_vertical[index_of_possible_bottom_crossing] in second_horizontal and first_vertical[vertical + area_height + 1] in second_horizontal:
 
-                if second_vertical[second_vertical.index(second_horiz_crossing) + area_height + 1] in second_horizontal and first_vertical[vertical + area_height + 1] in second_horizontal:
-
-                    for index, char in enumerate(second_horizontal):
-
-                        if char == first_vertical[vertical + area_height + 1] and second_horizontal[index + area_width + 1] == second_vertical[second_vertical.index(second_horiz_crossing) + area_height + 1]:
-                            match = True
-                            break
-    except:
+                            for index, char in enumerate(second_horizontal):
+                                if index != 0 and index != 11:
+                                    if char == first_vertical[vertical + area_height + 1] and second_horizontal[index + area_width + 1] == second_vertical[index_of_possible_bottom_crossing]:
+                                        match = True
+                                        break
+    except Exception:
         return 0
 
     if match:
@@ -115,26 +120,37 @@ def main(args):
     parsed_args = parser.parse_args(args)
 
     molecules_list = open_file(parsed_args.textfile)
+    
 
     area_lst = []
 
     if parsed_args.textfile:
+        # x = possible_molecules('BJBJEHGKFPHF', 'LHJLJJMKCOEG', 'AEGHAICEABPB', 'FLEINAMOECFF', (4, 6))
+        # print x
         for group in molecules_list:
+        
             if len(group) > 1:
                 for tup in rectangles():
                     i = itertools.permutations(group)
+                    
                     for a, b, c, d in i:
+                        
                         x = possible_molecules(a, b, c, d, tup)
                         if x:
+                            
+                            # area_lst.append([x, a, b, c, d, tup])
                             area_lst.append(x)
                             break
                 if area_lst:
+                    
                     print max(area_lst)[0]
+                    # print area_lst
                     area_lst = []
                 else:
                     print 0
             else:
                 break
+        print ""
     else:
         parser.print_usage()
         sys.exit(1)
