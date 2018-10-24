@@ -73,8 +73,9 @@ def possible_molecules(first_vertical, first_horizontal, second_vertical, second
                             for index, char in enumerate(second_horizontal):
                                 if index != 0 and index != 11:
                                     if char == first_vertical[vertical + area_height + 1] and second_horizontal[index + area_width + 1] == second_vertical[index_of_possible_bottom_crossing]:
-                                        match = True
-                                        break
+                                        if (index + area_width + 1) != 11:
+                                            match = True
+                                            break
     except Exception:
         return 0
 
@@ -125,7 +126,7 @@ def main(args):
     area_lst = []
 
     if parsed_args.textfile:
-        # x = possible_molecules('BJBJEHGKFPHF', 'LHJLJJMKCOEG', 'AEGHAICEABPB', 'FLEINAMOECFF', (4, 6))
+        # x = possible_molecules('CJEEJGMNAOOK', 'AKEDDDCPGBMG', 'MCPNACAFAAIN', 'DNLDNDAPMEDF', (4, 4))
         # print x
         for group in molecules_list:
         
