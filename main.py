@@ -3,6 +3,9 @@ import argparse
 import sys
 
 
+def find(string, char):
+    return [i for i, letter in enumerate(string) if letter == char]
+
 def crossings(horizontal, vertical, (width, height)):
 
     horizontal_lst = []
@@ -39,10 +42,73 @@ def crossings(horizontal, vertical, (width, height)):
         final_lst.append(x)
     return list(set(final_lst))
 
+# def crossings(horizontal, vertical, (width, height)):
+
+#     horizontal_lst = []
+#     vertical_lst = []
+#     final_lst = []
+
+#     max_horizontal_index = (len(horizontal) - 3) - width
+#     max_vertical_index = (len(vertical) - 3) - height
+
+    
+
+#     for horizontal_index, char in enumerate(horizontal):
+#         if horizontal_index > max_horizontal_index:
+#             break
+#         else:
+#             if char in vertical:
+#                 if horizontal_index != 0 and horizontal_index <= max_horizontal_index:
+#                     matching_chars_in_vertical = find(vertical, char)
+#                     for vertical_index in matching_chars_in_vertical:
+#                         if vertical_index != 0 and vertical_index <= max_vertical_index:
+#                     # if vertical.index(char) != 0 and vertical.index(char) <= max_vertical_index:
+#                             horizontal_lst.append((char, horizontal_index, vertical_index))
+
+#     for vertical_index, char in enumerate(vertical):
+#         if vertical_index > max_vertical_index:
+#             break
+#         else:
+#             if char in horizontal:
+#                 if vertical_index != 0 and vertical_index <= max_vertical_index:
+#                     matching_chars_in_horizontal = find(horizontal, char)
+#                     for horizontal_index in matching_chars_in_horizontal:
+#                         if horizontal_index != 0 and horizontal_index <= max_horizontal_index:
+
+#                     # if horizontal.index(char) != 0 and horizontal.index(char) <= max_horizontal_index:
+#                             vertical_lst.append((char, vertical_index, horizontal_index))
+
+#     for x in horizontal_lst:
+#         final_lst.append(x)
+
+#     for x in vertical_lst:
+#         final_lst.append(x)
+#     set_list = list(set(final_lst))
+#     # x = 1
+#     # return list(set(final_lst))
+#     return vertical_lst
+#     # return set_list
+
 
 def rectangles():
     lst = [(i, y) for i in range(1, 9) for y in range(i, 9)]
     return sorted(lst, key=lambda(x, y): x*y, reverse=True)
+
+def rectangles2():
+    lst = [(y, i) for i in range(1, 9) for y in range(i, 9)]
+    return sorted(lst, key=lambda(x, y): x*y, reverse=True)
+
+def permutations():
+    final_list = []
+
+    for tup in rectangles():
+        if tup not in final_list:
+            final_list.append(tup)
+    
+    for tup in rectangles2():
+        if tup not in final_list:
+            final_list.append(tup)
+    return final_list
 
 
 def possible_molecules(first_vertical, first_horizontal, second_vertical, second_horizontal, poss_area):
@@ -126,12 +192,13 @@ def main(args):
     area_lst = []
 
     if parsed_args.textfile:
-        # x = possible_molecules('CJEEJGMNAOOK', 'AKEDDDCPGBMG', 'MCPNACAFAAIN', 'DNLDNDAPMEDF', (4, 4))
+        # x = possible_molecules('AKEDDDCPGBMG', 'DNLDNDAPMEDF', 'MCPNACAFAAIN', 'CJEEJGMNAOOK', (2, 4))
         # print x
+        perms = permutations()
         for group in molecules_list:
         
             if len(group) > 1:
-                for tup in rectangles():
+                for tup in perms:
                     i = itertools.permutations(group)
                     
                     for a, b, c, d in i:
